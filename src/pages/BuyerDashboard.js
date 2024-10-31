@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase/config';
 import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
-import { Card, Button, Col, Row, Layout, Form, Input, Modal, notification, Select } from 'antd';
+import { Card, Button, Col, Row, Layout, Form, Input, Modal, notification, Select, Spin } from 'antd';
 import { useAuth } from '../contexts/AuthContext';
-import { Navbar, Nav, Container, Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../scss/_buyerdashboard.scss'; 
 import { Link } from 'react-router-dom';
-import { FaCartPlus, FaBox, FaHome, FaSignOutAlt, FaShoppingCart, FaRegListAlt , FaStar , FaTag , FaShoppingBag  } from 'react-icons/fa';
-import Header from '../components/Header/Header';
+import { FaCartPlus, FaShoppingCart, FaRegListAlt   } from 'react-icons/fa';  
+import Hero from '../components/Shop/Hero';
+import { toast } from 'react-toastify';
 
 
 
@@ -16,7 +16,7 @@ const { Content } = Layout;
 
 const BuyerDashboard = () => {
   const [activeSection, setActiveSection] = useState('allProducts');
-
+  const [isSpin, setSpin] = useState(false);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -27,22 +27,24 @@ const BuyerDashboard = () => {
   const [orderDetails, setOrderDetails] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setSpin(true);
       try {
         const querySnapshot = await getDocs(collection(db, 'products'));
         const fetchedProducts = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setProducts(fetchedProducts);
         setFilteredProducts(fetchedProducts);
-
         const categorySet = new Set(fetchedProducts.map(product => product.category));
         setCategories(Array.from(categorySet));
+        setSpin(false);
       } catch (error) {
         notification.error({
           message: 'Error',
           description: `Error fetching products: ${error.message}`,
-        });
+        }) 
       }
     };
 
@@ -143,10 +145,7 @@ const BuyerDashboard = () => {
     const updatedCart = [...cart, product];
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    notification.info({
-      message: 'Cart Updated',
-      description: `${product.name} has been added to your cart.`,
-    });
+    toast.success(`${product.name} has been added to your cart.`);
   };
 
   const handleRemoveFromCart = (index) => {
@@ -179,7 +178,7 @@ const BuyerDashboard = () => {
   const renderProductList = () => (
     <>
 
-<Carousel style={{ height: '400px', width: '100%' }}>
+{/* <Carousel style={{ height: '400px', width: '100%' }}>
     <Carousel.Item>
         <div style={{
             position: 'relative',
@@ -303,12 +302,11 @@ const BuyerDashboard = () => {
             </div>
         </div>
     </Carousel.Item>
-</Carousel>
+</Carousel> */}
 
 
       <div style={{
     width: '100%',
-    maxWidth: '400px', // Adjust max width as needed
     margin: '20px auto',
     padding: '20px',
    
@@ -338,17 +336,18 @@ const BuyerDashboard = () => {
 </div>
 
 
-      
+<Spin size='large' tip="Fetching Product" spinning={isSpin}>
+        
 <Row gutter={[16, 24]}>
-  {filteredProducts.map((product) => (
-    <Col xs={24} sm={12} md={8} lg={8} xl={8} key={product.id}> {/* Set lg and xl to 8 for three columns */}
+  {filteredProducts.slice(0,10).map((product) => (
+    <Col xs={24} sm={12} md={8} lg={8} xl={8} key={product.id}> 
       <Card
         hoverable
         cover={product.image ? (
           <img
             alt={product.name}
             src={product.image}
-            style={{ width: '100%', height: '200px', objectFit: 'cover' }} // Ensure image fills the card
+            style={{ width: '100%', height: '200px', objectFit: 'cover' }}
           />
         ) : null}
         actions={[
@@ -374,6 +373,7 @@ const BuyerDashboard = () => {
     </Col>
   ))}
 </Row>
+</Spin>
 
     </>
   );
@@ -457,12 +457,9 @@ const BuyerDashboard = () => {
   );
 
   return (
-    <Layout style={{ padding: '20px' }}>
-      <Header/>
-
-
+    <Layout>
+      <Hero/>
       <Layout style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      
 
         <Layout style={{ flex: 1, width: '100%', maxWidth: '1200px' }}>
           <Content className="p-4">

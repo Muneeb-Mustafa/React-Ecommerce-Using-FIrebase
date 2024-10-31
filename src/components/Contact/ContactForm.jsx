@@ -110,14 +110,13 @@ const ContactForm = () => {
         </div>
       </div>
       <div style={{ marginTop: "50px" }}>
-        <h2 style={{ fontFamily: "Playfair-Display", fontSize: "30px" }}>Find Us Here</h2>
+        <h2 style={{ fontFamily: "Playfair-Display", fontSize: "30px" }}>Find Us Here</h2> 
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3406.289541868677!2d73.06068127609439!3d31.378578954132827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39225d3f432e58f3%3A0x9043c066f655a076!2sStreet%2019%2C%20Nisar%20Colony%2C%20Faisalabad%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1729433415763!5m2!1sen!2s"
-          width="100%"
-          height="450"
-          style={{ border: 0 }}
-          allowFullScreen=""
-          loading="lazy"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.0891285459165!2d73.08623897609525!3d31.41167035250359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922681d444b32e1%3A0xc3887a0e53e91f7!2sSaylani%20Mass%20IT%20Training%20FSD!5e0!3m2!1sen!2s!4v1730402999605!5m2!1sen!2s" width="100%"
+        height="450"
+        style={{ border: 0 }}
+        allowFullScreen=""
+        loading="lazy"
         ></iframe>
       </div>
     </div>

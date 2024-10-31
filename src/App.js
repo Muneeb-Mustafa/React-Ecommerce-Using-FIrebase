@@ -18,19 +18,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import Contact from './pages/Contact';
 import Header from './components/Header/Header';
 import Navbar from './components/Header/Navbar';
+import Cart from './pages/Cart';
+import { CartProvider } from './contexts/CartContext';
 
 const App = () => {
   return (
     <> 
     <AuthProvider> 
+      <CartProvider>
       <Router>
         <Navbar/>
         <Header/>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Homepage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact/>} />
+          <Route path="/login" element={<Login />}/>
+          <Route path="/" element={<Homepage />}/>
+          <Route path="/about" element={<About />}/>
+          <Route path="/contact" element={<Contact/>}/>
+          <Route path="/cart" element={<Cart/>}/>
           <Route path="/register" element={<Register />} />
           <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
           <Route path="/seller-dashboard" element={<PrivateRoute element={<SellerDashboard />} />} />
@@ -39,6 +43,7 @@ const App = () => {
         </Routes>
         <Footer/>
       </Router>
+      </CartProvider>
     </AuthProvider>
     <ToastContainer />
     </>

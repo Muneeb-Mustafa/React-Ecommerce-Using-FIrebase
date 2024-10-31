@@ -13,6 +13,23 @@
 @import "./scss/navbar";
 
 
+/* Ensures root div takes 100vh and applies flex layout to center content */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1; /* Allows main content area to grow to fill available space */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+ 
+
 .App {
   text-align: center;
 }
@@ -29,6 +46,9 @@ a {
 
 a:hover {
   color: #fff; /* Change hover color */
+}
+body{
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {
